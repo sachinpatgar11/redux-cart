@@ -1,7 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const getInitialTheme = () => {
+  try {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark" ? "dark" : "light";
+  } catch (error) {
+    console.error("Failed to load theme from localStorage", error);
+    return "light";
+  }
+};
+
 const initialState = {
-  mode: "light",
+  mode: getInitialTheme(),
 };
 
 const themeSlice = createSlice({
