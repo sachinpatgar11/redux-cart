@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import Loader from "../components/Loader";
 import { getProducts } from "../services/productApi";
 
 const Products = () => {
@@ -26,7 +27,7 @@ const Products = () => {
   }, []);
 
   if (loading) {
-    return <div className="page-message">Loading products...</div>;
+    return <Loader />;
   }
 
   if (error) {

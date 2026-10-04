@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 import { useSelector } from "react-redux";
 
 import Header from "./components/Header";
-import Products from "./pages/Products";
-import Cart from "./pages/Cart";
+import Loader from "./components/Loader";
+const Products = lazy(() => import("./pages/Products"));
+const Cart = lazy(() => import("./pages/Cart"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 
 const App = () => {
   const theme = useSelector((state) => state.theme.mode);
@@ -13,14 +16,14 @@ const App = () => {
     <BrowserRouter>
       <div className={`app ${theme}`}>
         <Header />
-
-        <Routes>
-          <Route path="/products" element={<Products />} />
-
-          <Route path="/cart" element={<Cart />} />
-
-          <Route path="*" element={<Navigate to="/products" replace />} />
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<Navigate to="/products" replace />} />
+          </Routes>
+        </Suspense>
       </div>
     </BrowserRouter>
   );

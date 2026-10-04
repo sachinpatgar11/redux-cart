@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
@@ -8,7 +8,7 @@ import {
 } from "../features/cart/cartSlice";
 import QuantityControl from "./QuantityControl";
 
-function ProductCard({ product }) {
+const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
 
   const cartItem = useSelector((state) =>
@@ -28,29 +28,29 @@ function ProductCard({ product }) {
           className="product-image"
         />
       </div>
-
       <div className="product-content">
         <span className="category">{product.category}</span>
-
         <h3>{product.title}</h3>
-
         <p className="product-price">${product.price.toFixed(2)}</p>
-
-        {!cartItem ? (
-          <button className="add-cart-btn" onClick={handleAddToCart}>
-            Add to Cart
-          </button>
-        ) : (
-          <QuantityControl
-            quantity={cartItem.quantity}
-            onIncrease={() => dispatch(increaseQuantity(product.id))}
-            onDecrease={() => dispatch(decreaseQuantity(product.id))}
-            onRemove={() => dispatch(removeFromCart(product.id))}
-          />
-        )}
+        <div className="product-card-actions">
+          {!cartItem ? (
+            <button className="add-cart-btn" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+          ) : (
+            <QuantityControl
+              quantity={cartItem.quantity}
+              onIncrease={() => dispatch(increaseQuantity(product.id))}
+              onDecrease={() => dispatch(decreaseQuantity(product.id))}
+              onRemove={() => dispatch(removeFromCart(product.id))}
+            />
+          )}
+          <Link to={`/products/${product.id}`} className="details-btn">
+            View Details
+          </Link>
+        </div>
       </div>
     </div>
   );
-}
-
+};
 export default ProductCard;
