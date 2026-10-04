@@ -18,3 +18,22 @@ export const getProducts = async () => {
     image: product.thumbnail,
   }));
 };
+
+export const getProductById = async (id) => {
+  const response = await fetch(`${API_URL}/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch product");
+  }
+
+  const product = await response.json();
+
+  return {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    description: product.description,
+    category: product.category,
+    image: product.thumbnail,
+  };
+};
