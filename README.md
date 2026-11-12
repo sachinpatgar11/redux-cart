@@ -1,267 +1,194 @@
 # Redux Toolkit Product & Cart Application
 
-A React e-commerce application built with **React, Redux Toolkit, React Router, and Vite**.
+A modern, responsive product shopping application built with React, Redux Toolkit, and Vite. The application demonstrates practical React development concepts, centralized state management, reusable components, routing, API integration, and persistent application state.
 
-The application fetches products from the **Fake Store API** and provides a complete shopping cart experience where users can add products, update quantities, remove products, and view cart totals.
-
----
+Users can browse products, search and explore product details, manage shopping cart items, and switch between light and dark themes.
 
 ## Features
 
-### Product Page
+### Product Listing
 
-- Fetches products from an open-source REST API.
-- Displays products in a responsive grid.
-- Shows product image, title, category, and price.
-- Add products to the cart.
-- Increase product quantity.
-- Decrease product quantity.
-- Automatically removes the product when decreasing from quantity `1`.
-- Displays the current quantity directly on the product card.
+- Fetches product data from the DummyJSON API.
+- Displays products in a responsive grid layout.
+- Provides product information, including title, price, description, category, and image.
+- Supports product browsing and navigation to individual product details.
+- Includes loading and error states for API requests.
 
-### Cart Page
+### Product Details
 
-- Displays all selected products.
-- Shows product image, title, category, and price.
-- Displays the selected quantity for each product.
-- Increase quantity.
-- Decrease quantity.
-- Remove product from cart.
-- Automatically removes a product when its quantity reaches `0`.
-- Displays total number of products.
-- Displays total cart price.
-- Provides a checkout button placeholder.
+- Displays detailed information about an individual product.
+- Uses dynamic route parameters to identify products.
+- Provides cart actions directly from the product details page.
+- Loads the product details page lazily to improve initial application loading.
+
+### Shopping Cart
+
+- Add products to the shopping cart.
+- Increase or decrease product quantities.
+- Automatically displays the Remove action when the quantity reaches one.
+- Remove individual products from the cart.
+- View the total number of items and total cart price.
+- Maintain cart state across page refreshes using browser local storage.
 
 ### State Management
 
-The application uses **Redux Toolkit** to manage cart state globally.
+- Uses Redux Toolkit for centralized state management.
+- Uses `configureStore` to configure the Redux store.
+- Uses `createSlice` to manage cart and theme state.
+- Uses Redux selectors to access cart data.
+- Uses memoized selectors with `createSelector` for derived cart values, including total quantity and total price.
+- Separates application state into feature-based slices.
 
-The cart state is shared between:
+### Theme Management
 
-- Product page
-- Product cards
-- Header
-- Cart page
-- Cart summary
+- Supports light and dark themes.
+- Allows users to switch between themes.
+- Persists the selected theme using browser local storage.
+- Applies theme styles consistently across application components.
 
----
+### Routing and Performance
+
+- Uses React Router for client-side navigation.
+- Implements lazy loading for page-level components.
+- Uses React Suspense with a reusable loader component.
+- Organizes the application into reusable components, pages, features, and services.
+
+### User Interface
+
+- Responsive layout for desktop, tablet, and mobile screens.
+- Reusable product cards and quantity controls.
+- Consistent styling using CSS variables.
+- Interactive buttons and clear visual feedback.
+- Accessible labels for interactive controls.
 
 ## Tech Stack
 
-| Technology     | Purpose                     |
-| -------------- | --------------------------- |
-| React          | UI development              |
-| Vite           | Development/build tool      |
-| Redux Toolkit  | Global state management     |
-| React Redux    | Connecting React with Redux |
-| React Router   | Application routing         |
-| JavaScript     | Application logic           |
-| CSS            | Styling                     |
-| Fake Store API | Product data                |
-
-````
-
-The API provides sample e-commerce product data including:
-
-* Product ID
-* Title
-* Price
-* Description
-* Category
-* Image
-* Rating
-
-No backend server is required to run this project.
-
----
+| Technology    | Purpose                               |
+| ------------- | ------------------------------------- |
+| React         | Building the user interface           |
+| JavaScript    | Application logic                     |
+| Redux Toolkit | Centralized state management          |
+| React Redux   | Connecting React components to Redux  |
+| React Router  | Client-side routing                   |
+| Vite          | Development server and build tooling  |
+| CSS3          | Styling and responsive layouts        |
+| DummyJSON API | Product data source                   |
+| Local Storage | Persisting cart and theme preferences |
 
 ## Project Structure
 
 ```text
-redux-cart-app/
-│
+redux-cart/
 ├── public/
-│
+│   └── favicon.svg
 ├── src/
-│   │
 │   ├── app/
 │   │   └── store.js
-│   │
 │   ├── components/
+│   │   ├── CartSummary.jsx
 │   │   ├── Header.jsx
+│   │   ├── Loader.jsx
 │   │   ├── ProductCard.jsx
-│   │   ├── QuantityControl.jsx
-│   │   └── CartSummary.jsx
-│   │
+│   │   └── QuantityControl.jsx
 │   ├── features/
-│   │   └── cart/
-│   │       └── cartSlice.js
-│   │
+│   │   ├── cart/
+│   │   │   ├── cartSelectors.js
+│   │   │   └── cartSlice.js
+│   │   └── theme/
+│   │       └── themeSlice.js
 │   ├── pages/
-│   │   ├── Products.jsx
-│   │   └── Cart.jsx
-│   │
+│   │   ├── Cart.jsx
+│   │   ├── ProductDetails.jsx
+│   │   └── Products.jsx
 │   ├── services/
 │   │   └── productApi.js
-│   │
 │   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
+│   ├── index.css
+│   └── main.jsx
+├── index.html
 ├── package.json
 ├── package-lock.json
-├── vite.config.js
+├── eslint.config.js
 └── README.md
-````
-
----
-
-## Component Responsibilities
-
-### `Header`
-
-Responsible for:
-
-- Application navigation.
-- Products link.
-- Cart link.
-- Displaying total cart quantity.
-
----
-
-### `ProductCard`
-
-Responsible for:
-
-- Displaying product information.
-- Add to Cart functionality.
-- Displaying current quantity.
-- Increasing quantity.
-- Decreasing quantity.
-- Removing product.
-
----
-
-### `QuantityControl`
-
-A reusable component responsible for:
-
-- Increase button.
-- Decrease button.
-- Remove button when quantity is `1`.
-
-It is reused on:
-
-- Product page.
-- Cart page.
-
----
-
-### `CartSummary`
-
-Responsible for:
-
-- Total quantity.
-- Total price.
-- Grand total.
-- Checkout button.
-
----
-
-### `Products`
-
-Responsible for:
-
-- Fetching products from the API.
-- Loading state.
-- Error state.
-- Rendering product cards.
-
----
-
-### `Cart`
-
-Responsible for:
-
-- Reading cart items from Redux.
-- Rendering selected products.
-- Providing quantity controls.
-- Rendering the cart summary.
-- Handling the empty-cart state.
-
----
-
-## API Flow
-
-Products are fetched from the Fake Store API.
-
-```text
-Products Page
-      │
-      ▼
-getProducts()
-      │
-      ▼
-fetch()
-      │
-      ▼
-Fake Store API
-      │
-      ▼
-Product Data
-      │
-      ▼
-setProducts()
-      │
-      ▼
-ProductCard[]
 ```
 
-## Learning Objectives
+## Getting Started
 
-This project demonstrates several important React concepts:
+### Prerequisites
 
-- Functional components.
-- React Hooks.
-- `useState`.
-- `useEffect`.
-- `useSelector`.
-- `useDispatch`.
-- Redux Toolkit.
-- `createSlice`.
-- Redux store configuration.
-- Component reusability.
-- Derived state.
-- API integration.
-- Async operations.
-- Error handling.
-- React Router.
-- Responsive CSS.
-- Separation of concerns.
+Make sure the following tools are installed:
 
----
+- Node.js
+- npm
+- Git
 
-## Author
+### Installation
 
-**Sachin Patgar**
+1. Clone the repository.
 
-Frontend Developer
+2. Navigate to the project directory.
 
-Technologies:
+3. Install the project dependencies.
 
-```text
-React
-Redux Toolkit
-JavaScript
-HTML5
-CSS3
-React Router
-Vite
-REST APIs
-```
+4. Start the development server.
 
----
+### Available Scripts
+
+| Command           | Description                                 |
+| ----------------- | ------------------------------------------- |
+| `npm run dev`     | Starts the local development server         |
+| `npm run build`   | Creates an optimized production build       |
+| `npm run preview` | Previews the production build locally       |
+| `npm run lint`    | Runs ESLint to identify code-quality issues |
+
+## API Integration
+
+The application uses the DummyJSON Products API to retrieve product information.
+
+**API endpoint:** https://dummyjson.com/products
+
+The API integration is maintained separately in the services directory to keep data-fetching logic independent of UI components.
+
+## State Persistence
+
+The application uses browser local storage to persist selected application state.
+
+- **Cart:** Previously added products and their quantities remain available after refreshing the page.
+- **Theme:** The user's selected light or dark theme is retained across sessions.
+
+Redux Toolkit manages the application state, while local storage provides persistence between browser sessions.
+
+## Learning Outcomes
+
+This project demonstrates practical implementation of:
+
+- React functional components and hooks.
+- Component composition and reusability.
+- Redux Toolkit and Redux state management.
+- Feature-based state organization.
+- Redux selectors and memoized selectors.
+- React Router and dynamic routing.
+- Lazy loading and React Suspense.
+- REST API integration using Fetch.
+- Loading and error handling.
+- Browser local storage.
+- Derived state and cart calculations.
+- Responsive CSS layouts.
+- Basic accessibility considerations.
+
+## Future Enhancements
+
+Potential improvements for future iterations include:
+
+- Product search and category filtering.
+- Pagination and sorting.
+- Skeleton loading states.
+- Improved API error handling and request cancellation.
+- Automated unit and integration tests.
+- Error boundaries.
+- Checkout workflow.
+- Improved accessibility and keyboard navigation.
 
 ## License
 
-This project is intended for learning, practice, and demonstration purposes.
+This project is intended for learning and demonstration purposes. You are welcome to explore, modify, and extend it.
