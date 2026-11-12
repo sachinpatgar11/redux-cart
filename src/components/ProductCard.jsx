@@ -1,18 +1,22 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   addToCart,
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
 } from "../features/cart/cartSlice";
+
+import { selectCartItemById } from "../features/cart/cartSelectors";
+
 import QuantityControl from "./QuantityControl";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
 
   const cartItem = useSelector((state) =>
-    state.cart.items.find((item) => item.id === product.id),
+    selectCartItemById(state, product.id),
   );
 
   const handleAddToCart = () => {
@@ -28,10 +32,14 @@ const ProductCard = ({ product }) => {
           className="product-image"
         />
       </div>
+
       <div className="product-content">
         <span className="category">{product.category}</span>
+
         <h3>{product.title}</h3>
+
         <p className="product-price">${product.price.toFixed(2)}</p>
+
         <div className="product-card-actions">
           {!cartItem ? (
             <button className="add-cart-btn" onClick={handleAddToCart}>
@@ -45,6 +53,7 @@ const ProductCard = ({ product }) => {
               onRemove={() => dispatch(removeFromCart(product.id))}
             />
           )}
+
           <Link to={`/products/${product.id}`} className="details-btn">
             View Details
           </Link>
@@ -53,4 +62,5 @@ const ProductCard = ({ product }) => {
     </div>
   );
 };
+
 export default ProductCard;

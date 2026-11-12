@@ -6,20 +6,21 @@ import {
   removeFromCart,
 } from "../features/cart/cartSlice";
 
+import { selectCartItems } from "../features/cart/cartSelectors";
+
 import QuantityControl from "../components/QuantityControl";
 import CartSummary from "../components/CartSummary";
 
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const items = useSelector((state) => state.cart.items);
+  const items = useSelector(selectCartItems);
 
   if (items.length === 0) {
     return (
       <main className="cart-page">
         <div className="empty-cart">
           <h1>Your Cart is Empty</h1>
-
           <p>Add some products to your cart to see them here.</p>
         </div>
       </main>
@@ -32,7 +33,6 @@ const Cart = () => {
         <h1>Your Cart</h1>
 
         <div className="cart-layout">
-          {/* LEFT */}
           <section className="cart-items">
             <h2>Cart Items</h2>
 
@@ -64,8 +64,7 @@ const Cart = () => {
             ))}
           </section>
 
-          {/* RIGHT */}
-          <CartSummary items={items} />
+          <CartSummary />
         </div>
       </div>
     </main>

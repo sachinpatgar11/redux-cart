@@ -1,10 +1,14 @@
-const CartSummary = ({ items }) => {
-  const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+import { useSelector } from "react-redux";
 
-  const totalPrice = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0,
-  );
+import {
+  selectCartTotalQuantity,
+  selectCartTotalPrice,
+} from "../features/cart/cartSelectors";
+
+const CartSummary = () => {
+  const totalQuantity = useSelector(selectCartTotalQuantity);
+
+  const totalPrice = useSelector(selectCartTotalPrice);
 
   return (
     <aside className="cart-summary">

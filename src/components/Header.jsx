@@ -3,17 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { toggleTheme } from "../features/theme/themeSlice";
 
+import { selectCartTotalQuantity } from "../features/cart/cartSelectors";
+
 const Header = () => {
   const dispatch = useDispatch();
 
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartQuantity = useSelector(selectCartTotalQuantity);
 
   const theme = useSelector((state) => state.theme.mode);
-
-  const cartQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  );
 
   return (
     <header className="header">
@@ -33,7 +30,11 @@ const Header = () => {
           <button
             className="theme-toggle"
             onClick={() => dispatch(toggleTheme())}
-            aria-label="Toggle theme"
+            aria-label={
+              theme === "light"
+                ? "Switch to dark theme"
+                : "Switch to light theme"
+            }
           >
             {theme === "light" ? "🌙" : "☀️"}
           </button>
